@@ -16,7 +16,7 @@ export const people = [
     {
       id: 3,
       name: "Arshit Sharma",
-      designation: "Software Engineer",
+      designation: "ML/FullStack-Developer",
       image:
         "./src/assets/developer/arshit.png",
     },
@@ -44,7 +44,7 @@ export const people = [
     {
       id: 7,
       name: "Aseem Mittal",
-      designation: "Product Manager",
+      designation: "Future-second",
       image:
         "./src/assets/developer/aseem.png",
     },
