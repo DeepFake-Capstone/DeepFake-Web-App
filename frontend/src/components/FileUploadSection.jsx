@@ -11,7 +11,7 @@ export const FileUploadSection = () => {
           <FileUpload />
           </div>
         </div>
-        <Button label={"hit api !!"}/>
+        {/* <Button label={"hit api !!"}/> */}
       </div>
     </div>
   );
