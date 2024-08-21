@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 mongoose.connect("mongodb://localhost:27017/deepfake");
 
-
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -32,8 +31,8 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-const user=mongoose.model('user',userSchema)
+const User=mongoose.model('User',userSchema)
 
 module.exports={
-    user
+    User
 }
