@@ -13,3 +13,14 @@ Currently, two official plugins are available:
 docker build -t my-mongodb-image .
 
 docker run -d -p 27017:27017 --name my-mongodb-container my-mongodb-image
+
+# command to run ml model
+ cd model
+
+ python -m venv deepfake 
+
+ deepfake\Scripts\activate
+
+ pip install -r requirement.txt
+
+ python app.py

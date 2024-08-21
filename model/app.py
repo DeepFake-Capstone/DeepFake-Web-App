@@ -21,8 +21,6 @@ def preprocess_image(img_path):
     data = np.array(image_data) 
     return data
 
-
-
 @app.route('/')
 def index():
     return jsonify({"Message":"Hello from Flask"})
@@ -40,11 +38,18 @@ def predict():
     preprocessed_image = preprocess_image(img_path)
     prediction = model.predict(preprocessed_image)
     predicted_class = np.argmax(prediction)
-
+     
     # Assuming you have class labels
     class_labels = ['Fake', 'Real']
+    
+    # prediction_percentage = (prediction * 100).round(2).tolist()
 
     return jsonify({'predicted_class': class_labels[predicted_class]})
+    
+    # return jsonify({
+    #     'predicted_class': class_labels[predicted_class],
+    #     'prediction': prediction_percentage
+    # })
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5000)
