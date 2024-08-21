@@ -25,7 +25,7 @@ export const Signup = () => {
                 password: Password,
             });
             localStorage.setItem("token", response.data.token);
-            navigate("/Dashboard");
+            navigate("/Signin");
         } catch (err) {
             setError("Email already taken");
         }
