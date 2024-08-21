@@ -104,7 +104,7 @@ export const Signin = () => {
                     {error && <div className="mt-2 text-red-500">{error}</div>}
                     <div className="mt-8 flex justify-center items-center">
                         <p className="font-medium text-base text-gray-400">Don't have an account?</p>
-                        <button className="ml-2 font-medium text-base text-violet-500 hover:underline">
+                        <button onClick={()=>navigate('/signup')} className="ml-2 font-medium text-base text-violet-500 hover:underline">
                             Sign up
                         </button>
                     </div>
