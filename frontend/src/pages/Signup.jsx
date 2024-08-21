@@ -33,7 +33,13 @@ export const Signup = () => {
 
     return (
         <div className="flex w-full h-screen bg-gradient-to-br from-gray-900 to-black">
-            <div className="w-11/12 max-w-[700px] mx-3 px-10 my-10 rounded-3xl bg-gray-800 border-2 border-gray-700 text-white">
+
+            <div className="hidden relative w-full lg:flex items-center justify-center bg-gray-900">
+                <div className="w-60 h-60 rounded-full bg-gradient-to-tr from-violet-500 to-pink-500 animate-spin" />
+                <div className="w-full h-1/2 absolute bottom-0 bg-black/10 backdrop-blur-lg" />
+            </div>
+
+            <div className="w-11/12 max-w-[700px] mx-3 px-20 my-10 rounded-3xl bg-gray-800 border-2 border-gray-700 text-white">
                 <Heading label="Create Account" />
                 <Subheading label="Please enter your details to sign up" />
 
@@ -96,10 +102,6 @@ export const Signup = () => {
                         </button>
                     </div>
                 </div>
-            </div>
-            <div className="hidden relative w-full lg:flex items-center justify-center bg-gray-900">
-                <div className="w-60 h-60 rounded-full bg-gradient-to-tr from-violet-500 to-pink-500 animate-spin" />
-                <div className="w-full h-1/2 absolute bottom-0 bg-black/10 backdrop-blur-lg" />
             </div>
         </div>
     );
