@@ -2,6 +2,7 @@ const express = require('express');
 const zod = require('zod');
 const router = express.Router();
 const jwt = require("jsonwebtoken");
+const bcrypt = require('bcrypt');
 const { JWT_SECRET } = require('../config');
 const { User } = require('../Db'); // Assuming User model is defined in Db.js
 
@@ -20,31 +21,39 @@ const signupBody = zod.object({
 router.post("/signup", async (req, res) => {
     const { success, error } = signupBody.safeParse(req.body);
     if (!success) {
-        return res.status(411).json({
-            message: "Invalid input. Please check your data."
+        return res.status(400).json({
+            message: "Invalid input. Please check your data.",
+            errors: error.errors
         });
     }
 
     const existingUser = await User.findOne({ username: req.body.username });
     if (existingUser) {
-        return res.status(411).json({
+        return res.status(409).json({
             message: "Email already taken"
         });
     }
 
-    const user = await User.create({
-        username: req.body.username,
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        password: req.body.password
-    });
+    try {
+        // Hash the password before saving it to the database
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-    const token = jwt.sign({ userId: user._id }, JWT_SECRET);
+        const user = await User.create({
+            username: req.body.username,
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            password: hashedPassword
+        });
 
-    return res.json({
-        message: "User created successfully",
-        token: token
-    });
+        const token = jwt.sign({ userId: user._id }, JWT_SECRET);
+
+        return res.json({
+            message: "User created successfully",
+            token: token
+        });
+    } catch (err) {
+        return res.status(500).json({ message: "Internal server error" });
+    }
 });
 
 // Zod schema for signin request body validation
@@ -55,28 +64,31 @@ const loginBody = zod.object({
 
 // Signin Route
 router.post('/signin', async (req, res) => {
-    const { success } = loginBody.safeParse(req.body);
+    const { success, error } = loginBody.safeParse(req.body);
     if (!success) {
-        return res.status(411).json({
-            message: "Invalid input"
+        return res.status(400).json({
+            message: "Invalid input",
+            errors: error.errors
         });
     }
 
-    const user = await User.findOne({
-        username: req.body.username,
-        password: req.body.password
-    });
+    try {
+        const user = await User.findOne({ username: req.body.username });
 
-    if (user) {
-        const token = jwt.sign({ userId: user._id }, JWT_SECRET);
-        return res.json({
-            token: token
-        });
+        if (user && await bcrypt.compare(req.body.password, user.password)) {
+            const token = jwt.sign({ userId: user._id }, JWT_SECRET);
+            return res.json({
+                message: "Sign in successful",
+                token: token
+            });
+        } else {
+            return res.status(401).json({
+                message: "Invalid credentials"
+            });
+        }
+    } catch (err) {
+        return res.status(500).json({ message: "Internal server error" });
     }
-
-    return res.status(411).json({
-        message: "Error while logging in. Invalid credentials."
-    });
 });
 
 module.exports = router;
