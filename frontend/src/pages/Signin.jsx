@@ -7,6 +7,7 @@ import { InputBox } from '../components/common/InputBox';
 import { Button } from '../components/common/Button';
 
 export const Signin = () => {
+    
     const [Email, setEmail] = useState("");
     const [Password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -104,7 +105,7 @@ export const Signin = () => {
                     {error && <div className="mt-2 text-red-500">{error}</div>}
                     <div className="mt-8 flex justify-center items-center">
                         <p className="font-medium text-base text-gray-400">Don't have an account?</p>
-                        <button onClick={()=>navigate('/signup')} className="ml-2 font-medium text-base text-violet-500 hover:underline">
+                        <button onClick={() => navigate('/signup')} className="ml-2 font-medium text-base text-violet-500 hover:underline">
                             Sign up
                         </button>
                     </div>
