@@ -36,6 +36,10 @@ export const FileUpload = ({
   const [files, setFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [label, setLabel] = useState("");
+
+  const [realScore,setRealScore] = useState(null)
+  const [fakeScore,setFakeScore] = useState(null)
+
   // const [prediction, setPrediction]=useState("");
 
   const handleFileChange = (newFiles: File[]) => {
@@ -47,6 +51,8 @@ export const FileUpload = ({
     event.stopPropagation(); // Prevent triggering file input
     setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
     setLabel("");
+    setFakeScore(null);
+    setRealScore(null);
   };
 
   const handleClick = () => {
@@ -67,6 +73,8 @@ export const FileUpload = ({
       });
       console.log(response.data);
       setLabel(response.data['predicted_class']);
+      setFakeScore(response.data['scoreFake']);
+      setRealScore(response.data['scoreReal']);
       // setPrediction(response.data['prediction'])
     } catch (error) {
       console.error(error);
@@ -212,6 +220,14 @@ export const FileUpload = ({
             {label} {/*({prediction})}*/}
           </div>
         )}
+        {label == "Real"
+          ? <div className="text-xl text-green-300"> Confidence: {realScore}%</div> 
+          : <></>
+        }
+        {label == "Fake"
+          ? <div className="text-xl text-red-300"> Confidence: {fakeScore}%</div> 
+          : <></>
+        }
         <Button label={"Hit API!!"} onClick={handleSubmit} />
       </form>
     </>
