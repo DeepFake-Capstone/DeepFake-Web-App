@@ -36,6 +36,7 @@ export const FileUpload = ({
   const [files, setFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [label, setLabel] = useState("");
+  // const [prediction, setPrediction]=useState("");
 
   const handleFileChange = (newFiles: File[]) => {
     setFiles((prevFiles) => [...prevFiles, ...newFiles]);
@@ -45,6 +46,7 @@ export const FileUpload = ({
   const handleFileDelete = (index: number, event: React.MouseEvent) => {
     event.stopPropagation(); // Prevent triggering file input
     setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    setLabel("");
   };
 
   const handleClick = () => {
@@ -65,6 +67,7 @@ export const FileUpload = ({
       });
       console.log(response.data);
       setLabel(response.data['predicted_class']);
+      // setPrediction(response.data['prediction'])
     } catch (error) {
       console.error(error);
     }
@@ -204,13 +207,12 @@ export const FileUpload = ({
             </div>
           </motion.div>
         </div>
-        {label == "" 
-        ? <div></div>
-        : label == "Real" 
-          ? <div className="text-green-400 text-xl">{label}</div>
-          : <div className="text-red-400 text-xl">{label}</div>
-         }
-        <Button label={"hit api !!"} onClick={handleSubmit} />
+        {label && (
+          <div className={`text-xl ${label === "Real" ? "text-green-400" : "text-red-400"}`}>
+            {label} {/*({prediction})}*/}
+          </div>
+        )}
+        <Button label={"Hit API!!"} onClick={handleSubmit} />
       </form>
     </>
   );

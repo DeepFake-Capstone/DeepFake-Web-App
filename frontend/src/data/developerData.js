@@ -25,7 +25,7 @@ export const people = [
       name: "Himanshu Bansal",
       designation: "Data Scientist",
       image:
-        "./src/assets/developer/himanshu.png",
+        "./src/assets/developer/himanshu.jpg",
     },
     {
       id: 5,
