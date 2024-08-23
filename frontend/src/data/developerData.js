@@ -46,6 +46,6 @@ export const people = [
       name: "Aseem Mittal",
       designation: "Future-second",
       image:
-        "./src/assets/developer/aseem.png",
+        "./src/assets/developer/aseem_1.jpg",
     },
   ];
