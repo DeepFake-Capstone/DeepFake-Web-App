@@ -53,8 +53,8 @@ export const Dashboard = () => {
           </Sidebar>
           <div className="flex-1">
             <BackgroundBeams className="bg-black fixed inset-0 w-screen h-screen -z-10 bg-cover" />
-            <Header />
-            <FileUploadSection />
+            <Header />                  
+            <FileUploadSection />        
             <DeveloperSection people={people} />
           </div>
         </div>

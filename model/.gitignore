@@ -131,7 +131,6 @@ env.bak/
 venv.bak/
 deepfake/
 
-deepfake/
 
 # Spyder project settings
 .spyderproject
