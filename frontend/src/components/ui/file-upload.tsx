@@ -65,7 +65,11 @@ export const FileUpload = ({
     formData.append("image", files[0]);
     console.log(files);
     try {
+      // -----------------------For Image prediction------------------------------
       const response = await axios.post('http://127.0.0.1:5000/predict',
+      
+      // -----------------------For video prediction------------------------------
+      // const response = await axios.post('http://127.0.0.1:5000/predictVideo',
         formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
