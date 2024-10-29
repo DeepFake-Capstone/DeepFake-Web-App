@@ -13,15 +13,10 @@ export const Dashboard = () => {
 
   const handleLogout = async () => {
     try {
-      localStorage.removeItem('token'); // Remove the token from localStorage
-
-      // Additional logic for handling potential backend logout (if needed)
-      // This could involve making an API call to invalidate the token on the server
-
-      navigate('/signin'); // Redirect to the sign-in page after successful logout
+      localStorage.removeItem('token');
+      navigate('/signin');
     } catch (error) {
       console.error('Error during logout:', error);
-      // Handle potential errors (e.g., network issues) and display a user-friendly message
     }
   };
 
@@ -53,8 +48,8 @@ export const Dashboard = () => {
           </Sidebar>
           <div className="flex-1">
             <BackgroundBeams className="bg-black fixed inset-0 w-screen h-screen -z-10 bg-cover" />
-            <Header />                  
-            <FileUploadSection />        
+            <Header />
+            <FileUploadSection />
             <DeveloperSection people={people} />
           </div>
         </div>

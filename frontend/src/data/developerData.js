@@ -6,13 +6,13 @@ export const people = [
       image:
         "./src/assets/developer/dr_suresh.png",
     },
-    {
-      id: 2,
-      name: "Dr. Prashant S Rana",
-      designation: "Mentor",
-      image:
-        "./src/assets/developer/dr_ps.png",
-    },
+    // {
+    //   id: 2,
+    //   name: "Dr. Prashant S Rana",
+    //   designation: "Mentor",
+    //   image:
+    //     "./src/assets/developer/dr_ps.png",
+    // },
     {
       id: 3,
       name: "Arshit Sharma",
