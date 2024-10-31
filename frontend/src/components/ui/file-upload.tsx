@@ -29,18 +29,18 @@ const secondaryVariant = {
 };
 
 export const FileUpload = ({
+  type, // Pass type prop (image, audio, or video)
   onChange,
 }: {
+  type: "image" | "audio" | "video"; // Define accepted types
   onChange?: (files: File[]) => void;
 }) => {
   const [files, setFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [label, setLabel] = useState("");
-
-  const [realScore,setRealScore] = useState(null)
-  const [fakeScore,setFakeScore] = useState(null)
-
-  // const [prediction, setPrediction]=useState("");
+  const [realScore, setRealScore] = useState(null);
+  const [fakeScore, setFakeScore] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleFileChange = (newFiles: File[]) => {
     setFiles((prevFiles) => [...prevFiles, ...newFiles]);
@@ -48,7 +48,7 @@ export const FileUpload = ({
   };
 
   const handleFileDelete = (index: number, event: React.MouseEvent) => {
-    event.stopPropagation(); // Prevent triggering file input
+    event.stopPropagation();
     setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
     setLabel("");
     setFakeScore(null);
@@ -61,27 +61,30 @@ export const FileUpload = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const formData = new FormData();
-    formData.append("image", files[0]);
-    console.log(files);
+    formData.append(type, files[0]);
+
+    const endpointMap = {
+      image: "http://127.0.0.1:5000/predict",
+      audio: "http://127.0.0.1:5000/predict-audio",
+      video: "http://127.0.0.1:5000/predict-video"
+    };
+
     try {
-      // -----------------------For Image prediction------------------------------
-      const response = await axios.post('http://127.0.0.1:5000/predict',
-      
-      // -----------------------For video prediction------------------------------
-      // const response = await axios.post('http://127.0.0.1:5000/predictVideo',
-        formData, {
+      const response = await axios.post(endpointMap[type], formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
       });
       console.log(response.data);
-      setLabel(response.data['predicted_class']);
-      setFakeScore(response.data['scoreFake']);
-      setRealScore(response.data['scoreReal']);
-      // setPrediction(response.data['prediction'])
+      setLabel(response.data["predicted_class"]);
+      setFakeScore(response.data["scoreFake"]);
+      setRealScore(response.data["scoreReal"]);
     } catch (error) {
       console.error(error);
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -96,7 +99,7 @@ export const FileUpload = ({
 
   return (
     <>
-      <form name="imageClassification" onSubmit={handleSubmit}>
+      <form name={`${type}Classification`} onSubmit={handleSubmit}>
         <div className="w-full" {...getRootProps()}>
           <motion.div
             onClick={handleClick}
@@ -116,7 +119,7 @@ export const FileUpload = ({
                 Upload file
               </p>
               <p className="relative z-20 font-sans font-normal text-neutral-400 dark:text-neutral-400 text-base mt-2">
-                Drag or drop your files here or click to upload
+                Drag or drop your {`${type}`} file here or click to upload
               </p>
               <div className="relative w-full mt-10 max-w-xl mx-auto">
                 {files.length > 0 &&
@@ -167,7 +170,6 @@ export const FileUpload = ({
                           {new Date(file.lastModified).toLocaleDateString()}
                         </motion.p>
 
-                        {/* Delete Icon */}
                         <motion.button
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
@@ -180,7 +182,7 @@ export const FileUpload = ({
                       </div>
                     </motion.div>
                   ))}
-                {!files.length && (
+                      {!files.length && (
                   <motion.div
                     layoutId="file-upload"
                     variants={mainVariant}
@@ -221,19 +223,21 @@ export const FileUpload = ({
         </div>
         {label && (
           <div className={`text-xl ${label === "Real" ? "text-green-400" : "text-red-400"}`}>
-            {label} {/*({prediction})}*/}
+            {label}
           </div>
         )}
-        {label == "Real"
-          ? <div className="text-xl text-green-300"> Confidence: {realScore}%</div> 
-          : <></>
-        }
-        {label == "Fake"
-          ? <div className="text-xl text-red-300"> Confidence: {fakeScore}%</div> 
-          : <></>
-        }
-        <Button label={"Hit API!!"} onClick={handleSubmit} />
+        {label === "Real" && <div className="text-xl text-green-300">Confidence: {realScore}%</div>}
+        {label === "Fake" && <div className="text-xl text-red-300">Confidence: {fakeScore}%</div>}
+        {/* <Button label={"Hit API!!"} onClick={handleSubmit} />. */}
+        <Button 
+          label={loading ? "Loading..." : "Predict"} 
+          onClick={handleSubmit} 
+          disabled={loading} // Disable button while loading
+        />
       </form>
     </>
   );
 };
+
+
+
