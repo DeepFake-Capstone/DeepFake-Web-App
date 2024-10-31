@@ -12,7 +12,7 @@ export const FileUploadSection = () => {
           {["Image", "Audio", "Video"].map((tab) => (
             <button
               key={tab}
-              className={`bg-white/20 text-fuchsia-50 hover:bg-gray-400 text-white font-normal py-2 px-4 ${activeTab === tab ? "bg-gray-400" : ""} ${tab === "Image" ? "rounded-l" : tab === "Video" ? "rounded-r" : ""}`}
+              className={`bg-white/20 hover:bg-gray-400 text-white font-normal py-2 px-4 ${activeTab === tab ? "bg-gray-400" : ""} ${tab === "Image" ? "rounded-l" : tab === "Video" ? "rounded-r" : ""}`}
               onClick={() => setActiveTab(tab)}
             >
               {tab}
