@@ -12,7 +12,9 @@ export const FileUploadSection = () => {
           {["Image", "Audio", "Video"].map((tab) => (
             <button
               key={tab}
-              className={`bg-white/20 hover:bg-gray-400 text-white font-normal py-2 px-4 ${activeTab === tab ? "bg-gray-400" : ""} ${tab === "Image" ? "rounded-l" : tab === "Video" ? "rounded-r" : ""}`}
+              className={`py-2 px-4 text-white font-normal ${
+                activeTab === tab ? "bg-gray-400" : "bg-white/20"
+              } ${tab === "Image" ? "rounded-l" : tab === "Video" ? "rounded-r" : ""}`}
               onClick={() => setActiveTab(tab)}
             >
               {tab}
@@ -21,16 +23,13 @@ export const FileUploadSection = () => {
         </div>
 
         <div className="border-4 border-dotted border-gray-300 p-4 rounded-lg">
-          {/* File Upload Component based on Active Tab */}
           <div className="backdrop-blur-sm bg-white/20">
+            {/* Render FileUpload component based on active tab */}
             {activeTab === "Image" && <FileUpload type="image" />}
             {activeTab === "Audio" && <FileUpload type="audio" />}
             {activeTab === "Video" && <FileUpload type="video" />}
           </div>
         </div>
-
-        {/* Uncomment to add an API button */}
-        {/* <Button label={"Hit API !!"} /> */}
       </div>
     </div>
   );
