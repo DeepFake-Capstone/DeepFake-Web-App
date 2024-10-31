@@ -41,6 +41,7 @@ export const FileUpload = ({
   const [realScore, setRealScore] = useState(null);
   const [fakeScore, setFakeScore] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null); // Add this line
 
   const handleFileChange = (newFiles: File[]) => {
     setFiles((prevFiles) => [...prevFiles, ...newFiles]);
@@ -82,8 +83,13 @@ export const FileUpload = ({
       setFakeScore(response.data["scoreFake"]);
       setRealScore(response.data["scoreReal"]);
     } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        setError(error.response.data.error || "An unknown error occurred"); // Update this line
+      } else {
+        setError("Network error. Please try again.");
+      }
       console.error(error);
-    }finally{
+    } finally {
       setLoading(false)
     }
   };
@@ -182,7 +188,7 @@ export const FileUpload = ({
                       </div>
                     </motion.div>
                   ))}
-                      {!files.length && (
+                {!files.length && (
                   <motion.div
                     layoutId="file-upload"
                     variants={mainVariant}
@@ -228,10 +234,17 @@ export const FileUpload = ({
         )}
         {label === "Real" && <div className="text-xl text-green-300">Confidence: {realScore}%</div>}
         {label === "Fake" && <div className="text-xl text-red-300">Confidence: {fakeScore}%</div>}
+
+        {error && (
+          <div className="text-red-500 text-lg mt-4">
+            Error: {error}
+          </div>
+        )}
+
         {/* <Button label={"Hit API!!"} onClick={handleSubmit} />. */}
-        <Button 
-          label={loading ? "Loading..." : "Predict"} 
-          onClick={handleSubmit} 
+        <Button
+          label={loading ? "Loading..." : "Predict"}
+          onClick={handleSubmit}
           disabled={loading} // Disable button while loading
         />
       </form>
