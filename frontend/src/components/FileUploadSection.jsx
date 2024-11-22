@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FileUpload } from './ui/file-upload';
+import {LimeVisualisation} from './LimeVisualisation.jsx'; // Import the LimeVisualization component
 
 export const FileUploadSection = () => {
   const [activeTab, setActiveTab] = useState("Image");
@@ -24,8 +25,13 @@ export const FileUploadSection = () => {
 
         <div className="border-4 border-dotted border-gray-300 p-4 rounded-lg">
           <div className="backdrop-blur-sm bg-white/20">
-            {/* Render FileUpload component based on active tab */}
-            {activeTab === "Image" && <FileUpload type="image" />}
+            {/* Render components based on active tab */}
+            {activeTab === "Image" && (
+              <div>
+                <FileUpload type="image" />
+                {/* <LimeVisualisation />  */}
+              </div>
+            )}
             {activeTab === "Audio" && <FileUpload type="audio" />}
             {activeTab === "Video" && <FileUpload type="video" />}
           </div>

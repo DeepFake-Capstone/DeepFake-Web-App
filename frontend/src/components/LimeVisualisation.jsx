@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-export const LimeVisualization = () => {
+export const LimeVisualisation = () => {
   const [imageFile, setImageFile] = useState(null);
-  const [limeImage, setLimeImage] = useState(null);
+  const [limeResults, setLimeResults] = useState({});
 
   const handleFileUpload = (event) => {
     setImageFile(event.target.files[0]);
@@ -18,16 +18,16 @@ export const LimeVisualization = () => {
     formData.append("file", imageFile);
 
     try {
-      const response = await fetch("/lime", {
+      const response = await fetch("http://127.0.0.1:5000/lime", {
         method: "POST",
         body: formData,
       });
 
       if (response.ok) {
-        const blob = await response.blob();
-        setLimeImage(URL.createObjectURL(blob));
+        const data = await response.json();
+        setLimeResults(data);
       } else {
-        console.error("Error generating LIME visualization");
+        console.error("Error generating LIME Visualisation");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -43,10 +43,24 @@ export const LimeVisualization = () => {
       >
         Generate LIME
       </button>
-      {limeImage && (
-        <div className="mt-4">
-          <h3 className="text-center">LIME Visualization</h3>
-          <img src={limeImage} alt="LIME explanation" className="border rounded-lg" />
+      {limeResults.lime_green_red && limeResults.lime_boundaries && (
+        <div className="mt-4 grid grid-cols-1 gap-4">
+          <div>
+            <h3 className="text-center">Green and Red Contributions</h3>
+            <img
+              src={limeResults.lime_green_red}
+              alt="LIME explanation green and red"
+              className="border rounded-lg"
+            />
+          </div>
+          <div>
+            <h3 className="text-center">Bold Yellow Boundaries</h3>
+            <img
+              src={limeResults.lime_boundaries}
+              alt="LIME explanation boundaries"
+              className="border rounded-lg"
+            />
+          </div>
         </div>
       )}
     </div>
