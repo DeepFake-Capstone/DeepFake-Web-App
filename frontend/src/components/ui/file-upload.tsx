@@ -48,13 +48,24 @@ export const FileUpload = ({
     onChange && onChange(newFiles);
   };
 
+  // const handleFileDelete = (index: number, event: React.MouseEvent) => {
+  //   event.stopPropagation();
+  //   setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+  //   setLabel("");
+  //   setFakeScore(null);
+  //   setRealScore(null);
+  // };
+
   const handleFileDelete = (index: number, event: React.MouseEvent) => {
-    event.stopPropagation();
+    event.stopPropagation(); // Prevent the click event from propagating
+    event.preventDefault(); // Optional: Prevent default behavior (if any)
+  
     setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
     setLabel("");
     setFakeScore(null);
     setRealScore(null);
   };
+  
 
   const handleClick = () => {
     fileInputRef.current?.click();
@@ -127,7 +138,7 @@ export const FileUpload = ({
               <p className="relative z-20 font-sans font-normal text-neutral-400 dark:text-neutral-400 text-base mt-2">
                 Drag or drop your {`${type}`} file here or click to upload
               </p>
-              <div className="relative w-full mt-10 max-w-xl mx-auto">
+              {/* <div className="relative w-full mt-10 max-w-xl mx-auto">
                 {files.length > 0 &&
                   files.map((file, idx) => (
                     <motion.div
@@ -182,6 +193,104 @@ export const FileUpload = ({
                           layout
                           onClick={(e) => handleFileDelete(idx, e)}
                           className="ml-auto p-2 rounded-full hover:bg-red-200 dark:hover:bg-red-800 transition"
+                        >
+                          <IconX className="w-4 h-4 text-red-500 dark:text-red-400" />
+                        </motion.button>
+                      </div>
+                    </motion.div>
+                  ))}
+                {!files.length && (
+                  <motion.div
+                    layoutId="file-upload"
+                    variants={mainVariant}
+                    transition={{
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 20,
+                    }}
+                    className={cn(
+                      "relative group-hover/file:shadow-2xl z-40 bg-white dark:bg-neutral-900 flex items-center justify-center h-32 mt-4 w-full max-w-[8rem] mx-auto rounded-md",
+                      "shadow-[0px_10px_50px_rgba(0,0,0,0.1)]"
+                    )}
+                  >
+                    {isDragActive ? (
+                      <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="text-neutral-600 flex flex-col items-center"
+                      >
+                        Drop it
+                        <IconUpload className="h-4 w-4 text-neutral-600 dark:text-neutral-400" />
+                      </motion.p>
+                    ) : (
+                      <IconUpload className="h-4 w-4 text-neutral-600 dark:text-neutral-300" />
+                    )}
+                  </motion.div>
+                )}
+
+                {!files.length && (
+                  <motion.div
+                    variants={secondaryVariant}
+                    className="absolute opacity-0 border border-dashed border-sky-400 inset-0 z-30 bg-transparent flex items-center justify-center h-32 mt-4 w-full max-w-[8rem] mx-auto rounded-md"
+                  ></motion.div>
+                )}
+              </div> */}
+              
+              <div className="relative w-full mt-10 max-w-xl mx-auto">
+                {files.length > 0 &&
+                  files.map((file, idx) => (
+                    <motion.div
+                      key={"file" + idx}
+                      layoutId={idx === 0 ? "file-upload" : "file-upload-" + idx}
+                      className={cn(
+                        "relative overflow-hidden z-40 bg-white dark:bg-neutral-900 flex flex-col items-start justify-start md:h-24 p-4 mt-4 w-full mx-auto rounded-md",
+                        "shadow-sm"
+                      )}
+                    >
+                      <div className="flex justify-between w-full items-center gap-4">
+                        {/* Thumbnail Preview for Images and Videos */}
+                        {file.type.startsWith("image/") && (
+                          <img
+                            src={URL.createObjectURL(file)}
+                            alt={file.name}
+                            className="w-16 h-16 object-cover rounded-md mr-4"
+                          />
+                        )}
+                        {file.type.startsWith("video/") && (
+                          <video
+                            src={URL.createObjectURL(file)}
+                            className="w-16 h-16 object-cover rounded-md mr-4"
+                            controls={false} // Disable controls for a thumbnail look
+                            muted
+                            loop
+                          />
+                        )}
+
+                        {/* File Name */}
+                        <motion.p
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          layout
+                          className="text-base text-neutral-700 dark:text-neutral-300 truncate max-w-xs"
+                        >
+                          {file.name}
+                        </motion.p>
+                        <motion.p
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          layout
+                          className="rounded-lg px-2 py-1 w-fit flex-shrink-0 text-sm text-neutral-600 dark:bg-neutral-800 dark:text-white shadow-input"
+                        >
+                          {(file.size / (1024 * 1024)).toFixed(2)} MB
+                        </motion.p>
+
+                        {/* Delete Button */}
+                        <motion.button
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          layout
+                          onClick={(e) => handleFileDelete(idx, e)}
+                          className="absolute top-2 right-2 p-2 rounded-full bg-white hover:bg-red-200 dark:bg-neutral-900 dark:hover:bg-red-800 transition"
                         >
                           <IconX className="w-4 h-4 text-red-500 dark:text-red-400" />
                         </motion.button>
