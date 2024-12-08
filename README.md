@@ -19,7 +19,10 @@ docker run -d -p 27017:27017 --name my-mongodb-container my-mongodb-image
 
  python -m venv deepfake 
 
+ venv\Scripts\activate
+ or 
  deepfake\Scripts\activate
+ 
 
  pip install -r requirement.txt
 
