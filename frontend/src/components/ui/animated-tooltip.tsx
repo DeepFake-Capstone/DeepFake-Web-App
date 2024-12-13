@@ -35,6 +35,14 @@ export const AnimatedTooltip = ({
     x.set(event.nativeEvent.offsetX - halfWidth); // set the x value, which is then used in transform and rotate
   };
 
+  // const handleMouseMove = (event: any) => {
+  //   const halfWidth = event.target.offsetWidth / 2;
+  //   const offsetX = event.nativeEvent.offsetX - halfWidth;
+  //   const clampedX = Math.max(-100, Math.min(100, offsetX)); // Clamps x within bounds
+  //   x.set(clampedX);
+  // };
+  
+
   return (
     <>
       {items.map((item, idx) => (
@@ -61,7 +69,9 @@ export const AnimatedTooltip = ({
                 exit={{ opacity: 0, y: 20, scale: 0.6 }}
                 style={{
                   translateX: translateX,
+                  // translateX: `clamp(-50%, 0%, 50%)`, // Keeps it within bounds
                   rotate: rotate,
+                  // maxWidth: "200px", // Limit tooltip width
                   whiteSpace: "nowrap",
                 }}
                 className="absolute -top-16 -left-1/2 translate-x-1/2 flex text-xs  flex-col items-center justify-center rounded-md bg-black z-50 shadow-xl px-4 py-2"
