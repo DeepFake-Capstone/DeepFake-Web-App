@@ -1,14 +1,14 @@
-const express=require("express");
-const cors =require("cors");
-const rootrouter=require("./routes/index");
+const express = require("express");
+const cors = require("cors");
+const rootrouter = require("./routes/index");
 
-const app=express();
+const app = express();
 
 app.use(cors());
 app.use(express.json());
 
 
-app.use('/api/v1',rootrouter);
+app.use('/api/v1', rootrouter);
 
 // Define the port
 const port = process.env.PORT || 3000;
