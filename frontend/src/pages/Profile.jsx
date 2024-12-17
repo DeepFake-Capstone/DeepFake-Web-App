@@ -1,18 +1,15 @@
+import { ProfileCard } from "../components/profileCard";
 import React, { useContext, useState } from 'react';
-import { Header } from '../components/Header';
-import { FileUploadSection } from '../components/FileUploadSection';
-import { DeveloperSection } from '../components/DeveloperSection';
-import { BackgroundBeams } from '../components/ui/background-beams';
-import { people } from '../data/developerData';
 import { IconBrandTabler, IconUserBolt, IconSettings, IconArrowLeft } from '@tabler/icons-react';
 import { Sidebar, SidebarBody, SidebarLink, SidebarProvider } from '../components/ui/SidebarDemo';
 import { useNavigate } from 'react-router-dom';
 import { BsFillPersonFill } from "react-icons/bs";
 import userContext from '../components/context/userContext';
 
-export const Dashboard = () => {
+export const Profile = () => {
   const navigate = useNavigate();
   const { user } = useContext(userContext);
+  console.log(user);
   const handleLogout = async () => {
     try {
       localStorage.removeItem('token');
@@ -23,8 +20,8 @@ export const Dashboard = () => {
   };
 
   const links = [
-    { label: 'Dashboard', href: '#', icon: <IconBrandTabler className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" /> },
-    { label: 'Profile', href: navigate('/profile'), icon: <IconUserBolt className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" /> },
+    { label: 'Dashboard', href: '/dashboard', icon: <IconBrandTabler className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" /> },
+    { label: 'Profile', href: '/profile', icon: <IconUserBolt className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" /> },
     { label: 'Settings', href: '#', icon: <IconSettings className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" /> },
     { label: 'Logout', href: '/signin', icon: <IconArrowLeft className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />, onClick: handleLogout },
   ];
@@ -67,10 +64,7 @@ export const Dashboard = () => {
             </SidebarBody>
           </Sidebar>
           <div className="flex-1 relative">
-            <BackgroundBeams className="bg-black fixed inset-0 w-screen h-screen -z-10 bg-cover" />
-            <Header />
-            <FileUploadSection />
-            <DeveloperSection people={people} />
+            <ProfileCard props={user}/>
           </div>
         </div>
       </SidebarProvider>
