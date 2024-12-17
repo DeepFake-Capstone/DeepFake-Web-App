@@ -49,7 +49,12 @@ router.post("/signup", async (req, res) => {
 
         return res.json({
             message: "User created successfully",
-            token: token
+            token: token,
+            user: {
+                username: user.username,
+                firstname: user.firstname,
+                lastname: user.lastname
+            }
         });
     } catch (err) {
         return res.status(500).json({ message: "Internal server error" });
@@ -79,7 +84,12 @@ router.post('/signin', async (req, res) => {
             const token = jwt.sign({ userId: user._id }, JWT_SECRET);
             return res.json({
                 message: "Sign in successful",
-                token: token
+                token: token,
+                user: {
+                    username: user.username,
+                    firstname: user.firstname,
+                    lastname: user.lastname
+                }
             });
         } else {
             return res.status(401).json({

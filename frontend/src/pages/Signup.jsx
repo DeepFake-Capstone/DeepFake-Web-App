@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Heading } from '../components/common/Heading';
 import { Subheading } from '../components/Subheading';
 import { InputBox } from '../components/common/InputBox';
 import { Button } from '../components/common/Button';
+import userContext from '../components/context/userContext';
 
 export const Signup = () => {
     const [FirstName, setFirstName] = useState("");
@@ -13,6 +14,8 @@ export const Signup = () => {
     const [Password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState(null);
+
+    const {setUser} = useContext(userContext);
 
     const navigate = useNavigate();
 
@@ -25,6 +28,12 @@ export const Signup = () => {
                 password: Password,
             });
             localStorage.setItem("token", response.data.token);
+            setUser({
+                firstname: response.data.user.firstname,
+                lastname: response.data.user.lastname,
+                username: response.data.user.username,
+            });
+
             navigate("/Signin");
         } catch (err) {
             setError("Email already taken");
