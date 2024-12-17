@@ -54,7 +54,7 @@ export const LandingPage = () => {
                     rangeY={800}
                     particleCount={500}
                     baseHue={120}
-                    className="flex items-center flex-col justify-center px-2 md:px-10  py-4 w-full h-full"
+                    className="flex items-center flex-col justify-center px-2 md:px-10 py-4 w-full h-full"
                 >
                     {/* <h2 className="text-white text-2xl md:text-6xl font-bold text-center">
                         Replace the text here with your own content
@@ -119,11 +119,13 @@ export const LandingPage = () => {
                                 draggable={false}
                             />
                         </MagicCard>
+                    </div>            
+                    {/* Developers card section */}
+                    <div className="bg-black">
+                        <div className="flex">
+                        <AnimatedTestimonials testimonials={people} />;
+                        </div>
                     </div>
-                        {/* Developers card section */}
-            <div className="bg-black">
-                <AnimatedTestimonials testimonials={people} />;
-            </div>
                 </div>
             </div>
         </>
