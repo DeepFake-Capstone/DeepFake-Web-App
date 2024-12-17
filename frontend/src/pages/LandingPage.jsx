@@ -13,21 +13,33 @@ import { useNavigate } from 'react-router-dom';
 export const LandingPage = () => {
     const words = [
         {
-          text: "Build",
+          text: "AI-Powered",
         },
         {
-          text: "awesome",
+          text: "Deepfake",
         },
         {
-          text: "apps",
+          text: "Detection",
         },
         {
-          text: "with",
+          text: "for",
         },
         {
-          text: "Aceternity.",
+          text: "Audio,",
           className: "text-blue-500 dark:text-blue-500",
         },
+        {
+            text: "Video,",
+            className: "text-blue-500 dark:text-blue-500",
+          },
+          {
+            text: "&",
+            className: "text-blue-500 dark:text-blue-500",
+          },
+          {
+            text: "Images.",
+            className: "text-blue-500 dark:text-blue-500",
+          },
       ];
 
       const navigate = useNavigate();
@@ -53,7 +65,7 @@ export const LandingPage = () => {
 
                     <div className="flex flex-col items-center justify-center h-[40rem]  ">
                         <p className="text-white text-2xl md:text-6xl font-bold text-center">
-                            Replace the text here with your own content
+                            See Beyond the Fake, Trust the Real
                         </p>
 
                         <TypewriterEffectSmooth words={words} />
