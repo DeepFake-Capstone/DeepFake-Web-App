@@ -28,7 +28,11 @@ const userSchema = new mongoose.Schema({
         required: true,
         trim: true,
         maxLength: 50
-    }
+    },
+    apiHitCount: {
+        type: Number,
+        default: 0
+    }    
 });
 
 const User = mongoose.model('User', userSchema)
