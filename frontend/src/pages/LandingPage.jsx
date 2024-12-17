@@ -1,14 +1,40 @@
 import React from "react";
 import { Vortex } from '../components/ui/vortex.tsx';
+import { TypewriterEffectSmooth } from "../components/ui/typewriter-effect.jsx";
 import { people } from "../data/developerData.js";
 import { AnimatedTestimonials } from "../components/ui/animated-testimonials.tsx";
 import { modelEfficiency } from "../data/modelEfficiency.js";
 import { BsCheck } from "react-icons/bs";
 import { MagicCard } from "../components/ui/accuracyGraphBox.tsx";
+import { useNavigate } from 'react-router-dom';
+
+
 
 export const LandingPage = () => {
+    const words = [
+        {
+          text: "Build",
+        },
+        {
+          text: "awesome",
+        },
+        {
+          text: "apps",
+        },
+        {
+          text: "with",
+        },
+        {
+          text: "Aceternity.",
+          className: "text-blue-500 dark:text-blue-500",
+        },
+      ];
+
+      const navigate = useNavigate();
+
     return (
         <>
+        
             {/* Landing page introduction section */}
             <div className="w-[calc(100%)] mx-auto h-screen overflow-hidden">
                 <Vortex
@@ -18,19 +44,30 @@ export const LandingPage = () => {
                     baseHue={120}
                     className="flex items-center flex-col justify-center px-2 md:px-10  py-4 w-full h-full"
                 >
-                    <h2 className="text-white text-2xl md:text-6xl font-bold text-center">
+                    {/* <h2 className="text-white text-2xl md:text-6xl font-bold text-center">
                         Replace the text here with your own content
                     </h2>
                     <p className="text-white text-sm md:text-2xl max-w-xl mt-6 text-center">
                         Replace here too with the content you want to display on the landing page
-                    </p>
-                </Vortex>
-            </div>
+                    </p> */}
 
-            {/* Developers card section */}
-            <div className="bg-black">
-                <AnimatedTestimonials testimonials={people} />;
-            </div>
+                    <div className="flex flex-col items-center justify-center h-[40rem]  ">
+                        <p className="text-white text-2xl md:text-6xl font-bold text-center">
+                            Replace the text here with your own content
+                        </p>
+
+                        <TypewriterEffectSmooth words={words} />
+                        <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
+                            <button onClick={() => navigate('/signin')} className="w-40 h-10 rounded-xl bg-black border dark:border-white border-transparent text-white text-sm">
+                            Get Started
+                            </button>
+                            <button onClick={() => navigate('/signup')} className="w-40 h-10 rounded-xl bg-white text-black border border-black  text-sm">
+                            Signup
+                            </button>
+                        </div>
+                    </div>
+                </Vortex>
+            </div>       
 
             {/* section talking about the accuracy and efficency of the model */}
             <div className="w-[calc(100%)] bg-black overflow-hidden">
@@ -71,6 +108,10 @@ export const LandingPage = () => {
                             />
                         </MagicCard>
                     </div>
+                        {/* Developers card section */}
+            <div className="bg-black">
+                <AnimatedTestimonials testimonials={people} />;
+            </div>
                 </div>
             </div>
         </>
